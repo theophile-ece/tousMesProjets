@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("connexion_bdd.php");
 
 if (!isset($_SESSION["tentatives"])) {
     $_SESSION["tentatives"] = 0;
@@ -7,11 +8,17 @@ if (!isset($_SESSION["tentatives"])) {
 
 if (isset($_POST["login"], $_POST["password"])) {
 
-    $login = htmlspecialchars($_POST["login"]);
-    $password = htmlspecialchars($_POST["password"]);
+    $login = $_POST["login"];
+    $password = $_POST["password"];
 
-    if ($login == "Dupont" && $password == "alibaba") {
-        $_SESSION["utilisateur"] = $login;
+    $requete = $bdd->prepare("SELECT * FROM utilisateurs WHERE login = ?");
+    $requete->execute(array($login));
+
+    $utilisateur = $requete->fetch();
+
+    if ($utilisateur && password_verify($password, $utilisateur["mot_de_passe"])) {
+        $_SESSION["utilisateur"] = $utilisateur["prenom"] . " " . $utilisateur["nom"];
+        $_SESSION["login"] = $utilisateur["login"];
         $_SESSION["tentatives"] = 0;
     } else {
         $_SESSION["tentatives"]++;
@@ -56,13 +63,12 @@ if (isset($_POST["login"], $_POST["password"])) {
 
 <?php include_once 'menu.php'; ?>
 
-
 <main>
     <section>
         <h2>Connexion réussie</h2>
 
         <p class="succes-tp">
-            Bonjour <?php echo $_SESSION["utilisateur"]; ?> !
+            Bonjour <?php echo htmlspecialchars($_SESSION["utilisateur"]); ?> !
         </p>
 
         <p>

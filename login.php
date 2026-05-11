@@ -22,7 +22,9 @@ $textes = [
         "erreur" => "Login ou mot de passe incorrect.",
         "tentatives" => "Nombre de tentatives :",
         "connecte" => "Vous êtes connecté en tant que",
-        "deconnexion" => "Déconnexion"
+        "deconnexion" => "Déconnexion",
+        "inscription" => "Pas encore inscrit ?",
+        "creer_compte" => "Créer un compte"
     ],
     "en" => [
         "titre" => "Login",
@@ -33,7 +35,9 @@ $textes = [
         "erreur" => "Wrong username or password.",
         "tentatives" => "Number of attempts:",
         "connecte" => "You are logged in as",
-        "deconnexion" => "Logout"
+        "deconnexion" => "Logout",
+        "inscription" => "Not registered yet?",
+        "creer_compte" => "Create an account"
     ]
 ];
 
@@ -52,7 +56,7 @@ if (!isset($_SESSION["tentatives"])) {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TP10 - Connexion</title>
+    <title>Connexion</title>
     <link rel="stylesheet" href="style/styles.css">
 </head>
 
@@ -64,7 +68,7 @@ if (!isset($_SESSION["tentatives"])) {
         <img src="image/logo.webp" alt="Logo" class="logo">
     </div>
 
-    <p class="intro">TP10 : sessions et cookies</p>
+    <p class="intro">Connecte toi pour garder tes données</p>
 </header>
 
 <?php include_once 'menu.php'; ?>
@@ -124,6 +128,13 @@ if (!isset($_SESSION["tentatives"])) {
                 <input class="bouton-login" type="submit" value="<?php echo $textes[$langue]["bouton"]; ?>">
 
             </form>
+
+            <p class="zone-inscription">
+                <?php echo $textes[$langue]["inscription"]; ?>
+                <a class="lien-tp" href="inscription.php">
+                    <?php echo $textes[$langue]["creer_compte"]; ?>
+                </a>
+            </p>
 
         <?php } ?>
 
